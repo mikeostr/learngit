@@ -25,6 +25,7 @@ print(primes)
 
 # Множество чисел Фибоначчи до 100
 fibonacci = set(filter(is_fibonacci, range(2, 101)))
+print(fibonacci)
 
 # Множество простых чисел до 100, которые одновременно являются
 # числами Фибоначчи
@@ -33,6 +34,4 @@ print(prime_fibonacci)
 
 # Или используя оператор `&`, который определён для множеств
 prime_fibonacci = fibonacci & primes
-
-
 print(prime_fibonacci)
