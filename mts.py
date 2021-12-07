@@ -8,9 +8,11 @@ for line in f:
     tex.append(line.split("\t"))
 f.close()
 
-s = 0 # ammaunt traffic
+s = 0 # amount traffic
 inter, talk = [], []
-# цикл просмотра текста, разбор каждой строки, перевод трафика в кБ,
+"""цикл построчного просмотра файла, выделение значащих единиц, перевод трафика в кБ, подсчет суммарного
+интернет-трафика. Весь интернет сводится в список inter, все звонки в список talk. Если в интернете попадаются разовые
+услуги - строка игнорируется"""
 for i in range(len(tex)//2):
     year, month, day, time = tex[2*i][0][6:10], tex[2*i][0][3:5], tex[2*i][0][:2], tex[2*i][0][-5:]
     tipe = tex[2*i][1]
@@ -33,6 +35,7 @@ for i in range(len(tex)//2):
         many = tex[2 * i + 1][0].split()[0]
         talk.append([year, month, day, aid, duration, many])
 print("All traffic=", s / 1024 / 1024, "Gb")
+# подсчет трафика по целям и датам
 tipe_aid = {}  # цель трафика: трафик
 day_inter = {}  # словарь день: трафик
 
