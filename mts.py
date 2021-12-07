@@ -2,7 +2,7 @@
 СМС не обрабатывает"""
 
 
-f = open("C:\\Users\\Mike\\Desktop\\mts3.txt", 'r')
+f = open("C:\\Users\\Mike\\Desktop\\mts1.txt", 'r')
 tex = []
 for line in f:
     tex.append(line.split("\t"))
@@ -10,8 +10,8 @@ f.close()
 
 s = 0 # ammaunt traffic
 inter, talk = [], []
+# цикл просмотра текста, разбор каждой строки, перевод трафика в кБ,
 for i in range(len(tex)//2):
-    a = tex[2*i][0]
     year, month, day, time = tex[2*i][0][6:10], tex[2*i][0][3:5], tex[2*i][0][:2], tex[2*i][0][-5:]
     tipe = tex[2*i][1]
     if tipe == 'Интернет':
@@ -32,19 +32,22 @@ for i in range(len(tex)//2):
         duration = tex[2*i][3]
         many = tex[2 * i + 1][0].split()[0]
         talk.append([year, month, day, aid, duration, many])
-print("traffic=", s / 1024 / 1024, "Gb")
-tipe_aid = set()
-day_inter = {}
+print("All traffic=", s / 1024 / 1024, "Gb")
+tipe_aid = {}  # цель трафика: трафик
+day_inter = {}  # словарь день: трафик
 
 for line in inter:
-    tipe_aid.add(line[3])
+    if line[3] in tipe_aid:
+        tipe_aid[line[3]] += line[4]
+    else:
+        tipe_aid[line[3]] = line[4]
     date = '.'.join(line[:3])
     if date in day_inter:
         day_inter[date] += line[4]
     else:
         day_inter[date] = line[4]
 for i in tipe_aid:
-    print(i)
+    print(i, tipe_aid[i] // 1024, "Mb")
 traf_day = []
 s = 0
 for day in day_inter:
