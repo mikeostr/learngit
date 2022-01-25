@@ -1,14 +1,13 @@
 import codecs
 
+L_W = 5
 wordle_dic = {}
 f = codecs.open("C:\\Users\\Mike\\Desktop\\Russian_dictionary\\singular.txt", encoding='utf-8')
 for line in f:
     line = line[: -2]
-    if len(line) == 5 and line.isalpha():
+    if len(line) == L_W and line.isalpha():
         wordle_dic[line] = 0
-
 f.close()
-print("слов в словаре", len(wordle_dic))
 
 alphabet = {chr(i): 0 for i in range(1072, 1072 + 32)}
 
@@ -23,7 +22,7 @@ for word in wordle_dic:
         weight += alphabet[char]
     wordle_dic[word] = weight
     wordle_list.append([weight, word])
-wordle_list.sort()
+wordle_list.sort(reverse=True)
 
 text = ""
 for word in wordle_list:
@@ -33,4 +32,4 @@ fa = open("C:\\Users\\Mike\\Desktop\\Russian_dictionary\\wordle_list.txt", "w")
 fa.write(text)
 fa.close()
 
-print("len_dic", len(wordle_dic))
+print("слов в словаре", len(wordle_dic))
