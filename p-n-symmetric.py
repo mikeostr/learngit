@@ -21,7 +21,7 @@ def naiv(a):
             elif a[i][j] != 0 and a[j][i] != 0:
                 p_sim += 1
         # print(i, p_sim, n_sim)
-    print('len=', len_a, 'p_sim', p_sim, 'n_sim', n_sim)
+    # print('len=', len_a, 'p_sim', p_sim, 'n_sim', n_sim)
     p_sim = 2 * (p_sim + len_a) / (len_a ** 2 + len_a)
     n_sim = 2 * (n_sim + len_a) / (len_a ** 2 + len_a)
     end = time.time()
