@@ -2,10 +2,12 @@ import time
 import numpy as np
 import ssgetpy
 from scipy.io import mmread
-matrix = ssgetpy.search(6)[0]
+id = 1554
+matrix = ssgetpy.search(id)[0]
 file_path = matrix.download(extract=True)[0] + "/" + matrix.name + ".mtx"
 mtx = mmread(file_path)
 a = mtx.toarray()
+print(id, a.shape)
 
 
 def naiv(a):
@@ -29,13 +31,17 @@ def naiv(a):
 
 
 def numpe_alg(a):
-    stat = time.time()
+    len_a = a.size
+    start = time.time()
     a_trans = a.transpose()
+    n_sym = 1 - np.count_nonzero(a - a_trans) / len_a
+    no_zero = np.count_nonzero(np.multiply(a, a_trans))
     a_abs = np.absolute(a)
-    n_sym = 1 - np.count_nonzero(a - a_trans) / a.size
-    p_sym = (a.size - np.count_nonzero(a_abs + a_trans) + np.count_nonzero(np.multiply(a, a_trans))) / a.size
+    a_trans_abs = np.absolute(a_trans)
+    zero = a.size - np.count_nonzero(a_abs + a_trans_abs)
+    p_sym = (zero + no_zero) / len_a
     end = time.time()
-    return p_sym, n_sym, end - stat
+    return p_sym, n_sym, end - start
 
 
 print(*naiv(a))
