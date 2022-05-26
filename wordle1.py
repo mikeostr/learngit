@@ -30,5 +30,5 @@ for word in f:
     if all(word[i] in char[i] for i in range(L_W)) and all(char in word for char in char_is_set):
         word_nubmer += 1
         print(word[: L_W])
-        if word_nubmer > 9: break
+        if word_nubmer > 14: break
 f.close()

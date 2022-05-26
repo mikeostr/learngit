@@ -15,6 +15,12 @@ for word in wordle_dic:
     for char in word:
         alphabet[char] += 1
 
+# fa = open("C:\\Users\\Mike\\Desktop\\Russian_dictionary\\abc.txt", "w")
+# for i in range(1072, 1072 + 32):
+#
+#     fa.write(chr(i) + ':' + str(alphabet[chr(i)]) + '\n')
+# fa.close()
+
 wordle_list = []
 for word in wordle_dic:
     weight = 0

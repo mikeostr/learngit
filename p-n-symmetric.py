@@ -35,19 +35,20 @@ def naiv(a):
 
 
 def numpe_alg(a):
-    len_a = a.size
     start = time.time()
+    np.fill_diagonal(a, 0)
+    nzoffdiag = np.count_nonzero(a)
     a_trans = a.transpose()
-    n_sym = 1 - np.count_nonzero(a - a_trans) / len_a
-    no_zero = np.count_nonzero(np.multiply(a, a_trans))
-    a_abs = np.absolute(a)
-    a_trans_abs = np.absolute(a_trans)
-    zero = a.size - np.count_nonzero(a_abs + a_trans_abs)
-    p_sym = (zero + no_zero) / len_a
+    p_sym = np.count_nonzero(np.multiply(a, a_trans)) / nzoffdiag
+
+    n_sym = np.count_nonzero(np.equal(a, a_trans))
+    duo_zero = a.size - np.count_nonzero(np.absolute(a) + np.absolute(a_trans))
+    n_sym = (n_sym - duo_zero) / nzoffdiag
+
     end = time.time()
     return p_sym, n_sym, end - start
 
 
 print(*naiv(a))
-# print(*numpe_alg(a))
+print(*numpe_alg(a))
 
