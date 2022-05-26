@@ -2,7 +2,7 @@ import time
 import numpy as np
 import ssgetpy
 from scipy.io import mmread
-id = 1554
+id = int(input('id='))
 matrix = ssgetpy.search(id)[0]
 file_path = matrix.download(extract=True)[0] + "/" + matrix.name + ".mtx"
 mtx = mmread(file_path)
@@ -13,21 +13,25 @@ print(id, a.shape)
 def naiv(a):
     start = time.time()
     len_a = int(a.size ** 0.5 + 0.2)
-    n_sim, p_sim = 0, 0
+    p_sym, n_sym, nzoffdiag = 0, 0, 0
     for i in range(len_a):
-
         for j in range(i + 1, len_a):
-            if a[i][j] == a[j][i]:
-                p_sim += 1
-                n_sim += 1
+            if a[i][j] != 0 and a[j][i] != 0 and a[i][j] == a[j][i]:
+                p_sym += 2
+                n_sym += 2
+                nzoffdiag += 2
             elif a[i][j] != 0 and a[j][i] != 0:
-                p_sim += 1
-        # print(i, p_sim, n_sim)
-    # print('len=', len_a, 'p_sim', p_sim, 'n_sim', n_sim)
-    p_sim = 2 * (p_sim + len_a) / (len_a ** 2 + len_a)
-    n_sim = 2 * (n_sim + len_a) / (len_a ** 2 + len_a)
+                p_sym += 2
+                nzoffdiag += 2
+            elif a[i][j] != 0 or a[j][i] != 0:
+                nzoffdiag += 1
+    if nzoffdiag == 0:
+        p_sym, n_sym = 1, 1
+    else:
+        p_sym /= nzoffdiag
+        n_sym /= nzoffdiag
     end = time.time()
-    return p_sim, n_sim, end - start
+    return p_sym, n_sym, end - start
 
 
 def numpe_alg(a):
@@ -45,5 +49,5 @@ def numpe_alg(a):
 
 
 print(*naiv(a))
-print(*numpe_alg(a))
+# print(*numpe_alg(a))
 
